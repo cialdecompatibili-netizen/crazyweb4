@@ -82,7 +82,7 @@ html[data-toc-style="side"] #table-of-contents a:hover{border-bottom:1px solid v
   (function () {
     var box = document.getElementById('table-of-contents');
     if (!box) return;
-    document.documentElement.setAttribute('data-toc-style', 'side');
+    document.documentElement.setAttribute('data-toc-style', 'box');
     var items = box.querySelectorAll('#toc > li');
     if (items.length < 2) {
       box.style.display = 'none';
