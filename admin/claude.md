@@ -383,3 +383,9 @@ Creato il 2026-09-20 copiando crazyweb3 senza la cronologia git (un solo commit 
 - `_config.yml` chiave `toc_style`: `box` (cornice carta in alto, default) o `side` (laterale sinistro stile Distill, su mobile <=1024px va in alto come box).
 - Si cambia da admin > Impostazioni (select). Applicato da `_includes/footer.liquid`: il JS imposta `data-toc-style` su `<html>` e il CSS `html[data-toc-style=side]` sovrascrive il box. Regole adattate da `al-folio-distill.css` (d-article d-contents).
 - Il TOC resta quello di jekyll-toc (`#table-of-contents`), nessun layout Distill.
+
+### Articoli in evidenza (stella)
+- Nella lista Articoli ogni riga ha una stella: piena = eatured: true nel front matter. Il clic (A.feature in admin-views.js) aggiunge/toglie SOLO quella riga, poi commit.
+- Il blog (_pages/blog.md, site.posts | where: featured, true) li mostra in alto come card con puntina.
+- Lo stato si legge aprendo ogni post in parallelo all'apertura della lista (1 chiamata API per articolo).
+

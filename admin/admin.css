@@ -90,3 +90,4 @@ label{display:block;margin:10px 0 4px;font-weight:600;font-size:13px}
 .mdprev th,.mdprev td{border:1px solid #c3c4c7;padding:5px 9px}
 .mdprev th{background:#f0f0f1}
 .mdprev pre[data-lang]::before{content:attr(data-lang);display:block;font-size:11px;color:#787c82;margin-bottom:4px}
+.btn.star{background:none;border:0;padding:0 4px;font-size:20px;line-height:1;color:#a7aaad;cursor:pointer}.btn.star:hover{color:#dba617}.btn.star.on{color:#dba617}

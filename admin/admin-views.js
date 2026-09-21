@@ -283,14 +283,21 @@
       return A.getDir(cfg.dir).then(function (files) {
         files = files.filter(function (f) { return f.type === 'file' && /\.md$/.test(f.name); });
         files.sort(function (a, b) { return cfg.sortDesc ? (a.name < b.name ? 1 : -1) : (a.name < b.name ? -1 : 1); });
+        /* Solo Articoli: stato "in evidenza" (featured: true nel front matter, letto da _pages/blog.md). getDir non da' il contenuto: leggo i file in parallelo una volta sola. */
+        var feat = cfg.key === 'posts' ? Promise.all(files.map(function (f) {
+          return A.getFile(cfg.dir + '/' + f.name).then(function (r) { return /^featured:[ \t]*true\b/m.test(A.splitFM(r.text).fm); }).catch(function () { return false; });
+        })) : Promise.resolve([]);
+        return feat.then(function (fl) {
         var h = '<h2>' + cfg.label + ' <button class="btn primary sm" onclick="A.edit(\'' + cfg.key + '\')">+ Nuovo</button></h2><div class="card list">';
         if (!files.length) h += 'Nessun elemento.';
-        files.forEach(function (f) {
-          h += '<div class="it"><span>' + esc(f.name) + '</span>' +
+        files.forEach(function (f, i) {
+          var star = cfg.key === 'posts' ? '<button class="btn sm star' + (fl[i] ? ' on' : '') + '" title="' + (fl[i] ? 'In evidenza: clic per togliere' : 'Metti in evidenza (in alto nel blog)') + '" onclick="A.feature(\'' + esc(f.name) + '\',' + (fl[i] ? 'false' : 'true') + ')">' + (fl[i] ? '&#9733;' : '&#9734;') + '</button>' : '';
+          h += '<div class="it">' + star + '<span>' + esc(f.name) + '</span>' +
             '<button class="btn sm" onclick="A.edit(\'' + cfg.key + '\',\'' + esc(f.name) + '\')">Modifica</button>' +
             '<button class="btn sm danger" onclick="A.del(\'' + cfg.key + '\',\'' + esc(f.name) + '\')">Elimina</button></div>';
         });
         M().innerHTML = h + '</div>';
+        });
       });
     };
   }
@@ -445,6 +452,18 @@
     }
   });
 
+  /* A.feature: stella nella lista articoli. Aggiunge/toglie SOLO la riga "featured: true" nel front matter (fmSet/fmDel, il resto del file resta identico). Il blog (_pages/blog.md) mostra in alto i post con featured: true. */
+  A.feature = A.wrap(function (name, on) {
+    var p = '_posts/' + name;
+    return A.getFile(p).then(function (f) {
+      var s = A.splitFM(f.text);
+      if (!s.fm) throw new Error('Front matter non trovato in ' + name);
+      var fm = on ? A.fmSet(s.fm, 'featured', 'true') : A.fmDel(s.fm, 'featured');
+      var nl = f.text.indexOf('\r\n') >= 0 ? '\r\n' : '\n';
+      var out = '---' + nl + fm.replace(/\r?\n+$/, '') + nl + '---' + nl + s.body;
+      return A.putFile(p, out, f.sha, 'admin: ' + (on ? 'in evidenza ' : 'tolto da evidenza ') + name);
+    }).then(function () { A.toast(on ? 'In evidenza' : 'Tolto da evidenza'); A.go('posts'); });
+  });
   A.del = A.wrap(function (key, name) {
     if (!confirm('Eliminare ' + name + '?')) return;
     return A.getFile(C[key].dir + '/' + name).then(function (f) { return A.delFile(C[key].dir + '/' + name, f.sha); })
