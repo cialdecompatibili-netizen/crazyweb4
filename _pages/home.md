@@ -21,13 +21,23 @@ latest_posts:
 
 <style>
 .post-header{display:none}
-.rete-box{position:relative;overflow:hidden;isolation:isolate;text-align:center;max-width:800px;margin:0 auto;padding:3rem 1.2rem}
+.rete-box{position:relative;overflow:visible;isolation:isolate;text-align:center;max-width:800px;margin:0 auto;padding:3rem 1.2rem}
 .rete-box canvas{position:absolute;inset:0;width:100%;height:100%;z-index:-1;display:block;pointer-events:none}
 .rete-box > *{position:relative}
 .rete-box h2{margin-top:0}
+.rete-box .marte{position:absolute;z-index:-2;pointer-events:none;border-radius:50%;
+  width:clamp(150px,26vw,230px);aspect-ratio:1;right:2%;top:-2%;
+  background:radial-gradient(circle at 32% 30%, rgba(233,168,132,.62) 0%, rgba(214,160,134,.50) 32%, rgba(178,150,138,.34) 62%, rgba(150,145,145,.16) 100%);
+  box-shadow:0 0 90px 40px rgba(150,150,158,.10), inset -22px -16px 40px rgba(90,80,84,.20);
+  filter:blur(1px)}
+html[data-theme=dark] .rete-box .marte{
+  background:radial-gradient(circle at 32% 30%, rgba(214,140,102,.50) 0%, rgba(190,132,106,.40) 32%, rgba(140,112,102,.28) 62%, rgba(110,104,106,.12) 100%);
+  box-shadow:0 0 90px 40px rgba(150,150,160,.08), inset -22px -16px 40px rgba(20,16,18,.35)}
+@media (max-width:600px){.rete-box .marte{width:26vw;right:1%;top:-4%}}
 </style>
 
 <div class="rete-box" id="rete-box" markdown="1">
+<div class="marte" aria-hidden="true"></div>
 <canvas id="rete-cv" aria-hidden="true"></canvas>
 
 ## Web Agency a Roma dal 2013, al fianco della crescita del tuo business.
