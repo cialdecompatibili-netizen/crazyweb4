@@ -60,6 +60,13 @@ on:
 permissions:
   contents: write
 
+# Un solo deploy alla volta: se arriva un nuovo commit mentre uno e' in corso, quello vecchio viene
+# annullato e parte solo l'ultimo. Evita i deploy sovrapposti che scrivono insieme su gh-pages
+# (causa dei fallimenti allo step "Deploy" e dei "cancelled" a meta') e le build inutili.
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
   deploy:
     # available images: https://github.com/actions/runner-images#available-images

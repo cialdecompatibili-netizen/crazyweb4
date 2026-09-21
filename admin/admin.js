@@ -247,10 +247,13 @@ var A = (function () {
     Promise.all([buildLatest(), headSha()]).then(function (v) {
       base = v[0] ? v[0].commit : ''; sha = v[1];
       (function tick() {
-        Promise.all([
+        /* Segue SEMPRE l'ultimo commit del branch (non quello preso all'avvio): se fai un secondo salvataggio (o una stella)
+           mentre il deploy e' in corso, il primo deploy viene annullato da "concurrency" e ne parte uno nuovo con un altro SHA.
+           Con lo SHA fisso il pallino aspettava un deploy cancellato e restava su "Pubblicazione..." per 6 minuti. */
+        headSha().then(function (s) { sha = s; return Promise.all([
           api('GET', '/actions/runs?head_sha=' + sha + '&per_page=10'),
           buildLatest()
-        ]).then(function (v) {
+        ]); }).then(function (v) {
           var runs = v[0].workflow_runs || [], bl = v[1];
           var b = runs.filter(function (x) { return x.name === 'Deploy site'; })[0];
           if (b) vistaBuild = true;
