@@ -49,6 +49,7 @@
   var KEYS = [['title', 'Titolo sito'], ['first_name', 'Nome'], ['middle_name', 'Secondo nome'], ['last_name', 'Cognome'],
     ['contact_note', 'Nota contatti'], ['description', 'Descrizione'], ['footer_text', 'Testo footer'], ['keywords', 'Parole chiave'],
     ['lang', 'Lingua (es. it)'], ['url', 'URL sito'], ['baseurl', 'Baseurl']];
+  var CFG_SAVE = KEYS.concat([['toc_style', 'Indice articoli']]); // toc_style ha il suo <select> nella vista, non l'input generico
   var cfg = { sha: '', text: '' };
   function getVal(t, k) { // valore singola riga o blocco ">"
     var m = t.match(new RegExp('^' + k + ':[ \\t]*(.*)$', 'm'));
@@ -79,13 +80,15 @@
       cfg = { sha: f.sha, text: f.text };
       var h = '<h2>Impostazioni</h2><div class="card">';
       KEYS.forEach(function (k) { h += '<label>' + k[1] + ' <small>(' + k[0] + ')</small></label><input id="c_' + k[0] + '" value="' + esc(getVal(f.text, k[0])) + '">'; });
+      var ts = getVal(f.text, 'toc_style') === 'side' ? 'side' : 'box';
+      h += '<label>Indice articoli <small>(toc_style)</small></label><select id="c_toc_style"><option value="box"' + (ts === 'box' ? ' selected' : '') + '>Cornice in alto</option><option value="side"' + (ts === 'side' ? ' selected' : '') + '>Laterale sinistro (solo desktop)</option></select>';
       h += '<p><button class="btn primary" onclick="A.cfgSave()">Salva</button></p><small>Attenzione: url e baseurl sbagliati rompono il sito. Modifica solo se sai cosa fai.</small></div>';
       M().innerHTML = h;
     });
   };
   A.cfgSave = A.wrap(function () {
     var t = cfg.text;
-    KEYS.forEach(function (k) {
+    CFG_SAVE.forEach(function (k) {
       var nv = $('c_' + k[0]).value.trim();
       if (nv !== getVal(cfg.text, k[0])) t = setVal(t, k[0], nv);
     });

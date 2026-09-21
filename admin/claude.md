@@ -377,3 +377,9 @@ Se scrivi un nuovo modulo: dichiara i campi in `config_fields` del `module.json`
 
 ## Origine di questo repo
 Creato il 2026-09-20 copiando crazyweb3 senza la cronologia git (un solo commit iniziale) e cambiando SOLO la riga baseurl di _config.yml, come da procedura di clonazione della sez. 0. I due repo sono INDIPENDENTI: una correzione fatta in uno NON arriva da sola nell'altro. Il log delle sessioni qui sotto e' quello ereditato da crazyweb3.
+
+
+### Indice articoli: switch toc_style
+- `_config.yml` chiave `toc_style`: `box` (cornice carta in alto, default) o `side` (laterale sinistro stile Distill, solo desktop >1024px; sotto torna il box).
+- Si cambia da admin > Impostazioni (select). Applicato da `_includes/footer.liquid`: il JS imposta `data-toc-style` su `<html>` e il CSS `html[data-toc-style=side]` sovrascrive il box. Regole adattate da `al-folio-distill.css` (d-article d-contents).
+- Il TOC resta quello di jekyll-toc (`#table-of-contents`), nessun layout Distill.
