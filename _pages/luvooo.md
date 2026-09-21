@@ -1,7 +1,7 @@
 ---
 layout: page
 title: luvooo
-permalink: /nuova/
+permalink: /luvooo/
 nav: false
 ---
 
