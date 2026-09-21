@@ -1,9 +1,8 @@
 ---
 layout: page
 title: servizi
-nav: true
+nav: false
 permalink: /servizi/
-nav_order: 20
 ---
 
 <style>
