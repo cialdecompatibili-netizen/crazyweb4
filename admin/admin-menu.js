@@ -112,6 +112,11 @@
        lasciato l'utente), poi sovrascrivo solo i campi che ha toccato nei box semplici.
        title passa da yq() (un ':' lo romperebbe). */
     if ($('p_title')) pfm = A.fmSet(pfm, 'title', A.yq($('p_title').value.trim()));
+    /* permalink DINAMICO: il template di una pagina nuova (A.pgEdit sopra) parte con
+       'permalink: /nuova/' come segnaposto. Se l'utente non l'ha cambiato a mano nel YAML
+       avanzato, lo sostituisco con '/<nome-file>/' ricavato dal nome scelto sopra, cosi'
+       ogni pagina nuova ha un URL diverso e corretto senza doverlo scrivere a mano. */
+    if (/^permalink:\s*\/nuova\/\s*$/m.test(pfm)) pfm = A.fmSet(pfm, 'permalink', '/' + name + '/');
     [['seo_title', 'p_seot'], ['seo_description', 'p_seod']].forEach(function (s) {
       var v = ($(s[1]).value || '').trim();
       pfm = v ? A.fmSet(pfm, s[0], A.yq(v)) : A.fmDel(pfm, s[0]);
