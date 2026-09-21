@@ -3,7 +3,7 @@ layout: about
 title: About
 permalink: /about/
 nav: true
-nav_order: 0.5
+nav_order: 0.9
 subtitle: "<a href='#'>Abount</a>. Address. Contacts. Motto. Etc."
 
 profile:
