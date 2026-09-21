@@ -58,7 +58,7 @@ Un team unico di professionisti coordina ogni fase, dalla strategia al risultato
   var o=document.querySelector('.marte-orbita'); if(!o) return;
   var y=o.querySelector('.marte-y'), cv=o.querySelector('.marte'); if(!y||!cv) return;
   var ridotto=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var PX=173000, PY=131000, GIRO=240000, K='marte_t0';
+  var PX=173000, PY=131000, GIRO=90000, K='marte_t0';
   var t0=parseInt(localStorage.getItem(K),10); if(!t0||isNaN(t0)){ t0=Date.now(); try{localStorage.setItem(K,t0);}catch(e){} }
   function amp(){ return matchMedia('(max-width:600px)').matches?26:36; }
   function moto(){
@@ -72,23 +72,40 @@ Un team unico di professionisti coordina ogni fase, dalla strategia al risultato
   img.onload=function(){
     var tc=document.createElement('canvas'); tc.width=img.width; tc.height=img.height; var tx=tc.getContext('2d'); tx.drawImage(img,0,0);
     var T=tx.getImageData(0,0,tc.width,tc.height).data, TW=tc.width, TH=tc.height;
-    var g=cv.getContext('2d'), N=S*2, out=g.createImageData(N,N), D=out.data, map=new Float32Array(N*N*3);
+    var g=cv.getContext('2d'), N=S*2, out=g.createImageData(N,N), D=out.data;
+    /* sfera vera: per ogni pixel del disco calcolo il punto 3D, lo riporto nel sistema del pianeta
+       (asse polare inclinato di TILT) e da li ricavo longitudine/latitudine sulla mappa. */
+    var TILT=25*Math.PI/180, cT=Math.cos(TILT), sT=Math.sin(TILT);
+    var LX=-.55, LY=.45, LZ=.70, LL=Math.sqrt(LX*LX+LY*LY+LZ*LZ); LX/=LL; LY/=LL; LZ/=LL;   /* luce da alto-sinistra */
+    var PX=new Float32Array(N*N), PY=new Float32Array(N*N), PZ=new Float32Array(N*N), SH=new Float32Array(N*N);
     for(var yy=0;yy<N;yy++)for(var xx=0;xx<N;xx++){
-      var nx=(xx+.5-S)/S, ny=(S-yy-.5)/S, r2=nx*nx+ny*ny, i=(yy*N+xx)*3;
-      if(r2>1){map[i+2]=-1;continue;}
-      var nz=Math.sqrt(1-r2); map[i]=Math.atan2(nx,nz); map[i+1]=(.5-Math.asin(ny)/Math.PI)*(TH-1); map[i+2]=nz;
+      var nx=(xx+.5-S)/S, ny=(S-yy-.5)/S, r2=nx*nx+ny*ny, i=yy*N+xx;
+      if(r2>1){SH[i]=-1;continue;}
+      var nz=Math.sqrt(1-r2);
+      /* rotazione inversa attorno all'asse X = inclinazione dell'asse polare rispetto alla verticale dello schermo */
+      PX[i]=nx; PY[i]=ny*cT+nz*sT; PZ[i]=-ny*sT+nz*cT;
+      var d=nx*LX+ny*LY+nz*LZ; SH[i]=Math.max(0,d);
     }
     function frame(ph){
-      for(var i=0;i<N*N;i++){ var m=i*3,q=i*4; if(map[m+2]<0){D[q+3]=0;continue;}
-        var u=(map[m]+ph)/(6.283185307); u-=Math.floor(u);
-        var t=((Math.min(TH-1,map[m+1]|0))*TW+Math.min(TW-1,(u*TW)|0))*4, k=.35+.65*Math.pow(map[m+2],.6);
-        D[q]=T[t]*k; D[q+1]=T[t+1]*k; D[q+2]=T[t+2]*k; D[q+3]=255; }
+      for(var i=0;i<N*N;i++){ var q=i*4;
+        if(SH[i]<0){D[q+3]=0;continue;}
+        var lon=Math.atan2(PX[i],PZ[i])+ph, lat=Math.asin(Math.max(-1,Math.min(1,PY[i])));
+        var u=lon/6.283185307; u-=Math.floor(u);
+        var v=(.5-lat/Math.PI)*(TH-1);
+        var xf=u*(TW-1), x0=xf|0, x1=(x0+1)%TW, fx=xf-x0, y0=v|0, y1=Math.min(TH-1,y0+1), fy=v-y0;
+        var a=(y0*TW+x0)*4, b=(y0*TW+x1)*4, c=(y1*TW+x0)*4, e=(y1*TW+x1)*4;
+        var k=.30+.70*Math.pow(SH[i],.75);
+        for(var ch=0;ch<3;ch++){
+          var top=T[a+ch]*(1-fx)+T[b+ch]*fx, bot=T[c+ch]*(1-fx)+T[e+ch]*fx;
+          D[q+ch]=(top*(1-fy)+bot*fy)*k;
+        }
+        D[q+3]=255; }
       g.putImageData(out,0,0);
     }
     var last=0;
     (function tick(now){
       var ph=((Date.now()-t0)%GIRO)/GIRO*6.283185307;   /* fase legata al tempo: dopo il refresh riprende da dove era */
-      if(!ridotto&&now-last>66){ frame(ph); last=now; } else if(!last){ frame(ph); last=now; }
+      if(!ridotto&&now-last>50){ frame(ph); last=now; } else if(!last){ frame(ph); last=now; }
       if(!ridotto) requestAnimationFrame(tick);
     })(0);
   };
