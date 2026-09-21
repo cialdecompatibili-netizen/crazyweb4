@@ -13,7 +13,6 @@ children:
   - title: divider
   - title: People
     permalink: /people/
-  - title: Servizi
-    permalink: /servizi/
+  - title: divider
 ---
 
