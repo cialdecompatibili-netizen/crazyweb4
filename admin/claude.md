@@ -257,7 +257,7 @@ Il `header.liquid` ORIGINALE della gem (`al_folio_core-1.0.15`) stampa la voce "
 Campi `about.md`: `selected_papers`, `social`, `announcements.{enabled,scrollable,limit}`, `latest_posts.{enabled,scrollable,limit}`. Il corpo (bio) e' il testo sotto il front matter.
 
 ## 5. Regole tecniche al-folio v1 (trappole)
-1. Layout/include/sass sono nella GEM. Nel nostro sito e' lecito fare override (shadow) ma solo se indispensabile. Override gia' presente: `_includes/footer.liquid` (bottoni flottanti, vedi sez. 7).
+1. Layout/include/sass sono nella GEM. Nel nostro sito e' lecito fare override (shadow) ma solo se indispensabile. Override gia' presente: `_includes/footer.liquid` (bottoni flottanti, vedi sez. 7; in fondo anche lo stile CSS della cornice "Indice" del TOC automatico dei post, selettori `#table-of-contents`, carta gialla + dark mode. Per cambiare l'aspetto dell'indice si modifica SOLO quel blocco `<style>`).
 2. `Gemfile` e `_config.yml` devono concordare sui plugin.
 3. `baseurl` = `/alfolioadmin` (gia' impostato). Nell'admin gli URL si costruiscono da `A.baseurl()`, mai scritti a mano.
 4. Tags nei post: stringa a spazi (`tags: a b c`). Categorie idem.
