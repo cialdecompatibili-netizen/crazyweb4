@@ -25,23 +25,34 @@ latest_posts:
 .rete-box canvas{position:absolute;inset:0;width:100%;height:100%;z-index:-1;display:block;pointer-events:none}
 .rete-box > *{position:relative}
 .rete-box h2{margin-top:0}
-.rete-box .marte{position:absolute;z-index:-2;pointer-events:none;border-radius:50%;overflow:hidden;
-  width:clamp(84px,12vw,124px);aspect-ratio:1;right:1%;top:-3%;
-  box-shadow:0 0 46px 16px rgba(150,150,158,.12);opacity:.38;filter:saturate(.72) contrast(.9);
+/* ===== MARTE START (css) - per rimuovere Marte: cancella da qui a MARTE END (css), il blocco MARTE nell'HTML e assets/img/marte.webp ===== */
+.rete-box .marte-orbita{position:absolute;z-index:-2;pointer-events:none;left:50%;top:50%;width:0;height:0;
+  animation:marte-x 173s ease-in-out infinite alternate}
+.rete-box .marte-orbita .marte-y{position:absolute;left:0;top:0;width:0;height:0;
+  animation:marte-y 131s ease-in-out infinite alternate}
+.rete-box .marte{position:absolute;left:calc(clamp(72px,10vw,104px) / -2);top:calc(clamp(72px,10vw,104px) / -2);
+  width:clamp(72px,10vw,104px);aspect-ratio:1;border-radius:50%;overflow:hidden;
+  opacity:.46;filter:saturate(.78) contrast(.92);
+  box-shadow:0 0 34px 10px rgba(150,150,158,.12);
   background:url("{{ '/assets/img/marte.webp' | relative_url }}") center/100% 100% no-repeat;
-  animation:marte-libra 90s ease-in-out infinite alternate}
-.rete-box .marte::after{content:"";position:absolute;inset:0;border-radius:50%;
-  background:radial-gradient(circle at 28% 30%,rgba(255,255,255,.12) 0%,rgba(0,0,0,0) 34%,rgba(0,0,0,.34) 100%);
-  background-size:170% 170%;background-position:0% 0%;animation:marte-luce 150s ease-in-out infinite alternate}
-@keyframes marte-libra{from{transform:rotate(-7deg)}to{transform:rotate(7deg)}}
-@keyframes marte-luce{from{background-position:0% 0%}to{background-position:100% 60%}}
-html[data-theme=dark] .rete-box .marte{opacity:.40;box-shadow:0 0 46px 16px rgba(150,150,160,.08)}
-@media (max-width:600px){.rete-box .marte{width:20vw;right:1%;top:-5%}}
-@media (prefers-reduced-motion:reduce){.rete-box .marte,.rete-box .marte::after{animation:none}}
+  animation:marte-gira 300s linear infinite}
+.rete-box .marte::after{content:"";position:absolute;inset:-1px;border-radius:50%;
+  background:radial-gradient(circle at 30% 28%,rgba(255,255,255,.12) 0%,rgba(0,0,0,0) 34%,rgba(0,0,0,.30) 100%)}
+@keyframes marte-gira{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
+@keyframes marte-x{from{transform:translateX(-36vw)}to{transform:translateX(36vw)}}
+@keyframes marte-y{from{transform:translateY(-110px)}to{transform:translateY(110px)}}
+html[data-theme=dark] .rete-box .marte{opacity:.50;box-shadow:0 0 34px 10px rgba(150,150,160,.08)}
+@media (max-width:600px){.rete-box .marte{width:17vw;height:17vw;left:-8.5vw;top:-8.5vw}
+  .rete-box .marte-orbita{animation-name:marte-x-m}}
+@keyframes marte-x-m{from{transform:translateX(-26vw)}to{transform:translateX(26vw)}}
+@media (prefers-reduced-motion:reduce){.rete-box .marte,.rete-box .marte-orbita,.rete-box .marte-orbita .marte-y{animation:none}}
+/* ===== MARTE END (css) ===== */
 </style>
 
 <div class="rete-box" id="rete-box" markdown="1">
-<div class="marte" aria-hidden="true"></div>
+<!-- ===== MARTE START (html) ===== -->
+<div class="marte-orbita" aria-hidden="true"><div class="marte-y"><div class="marte"></div></div></div>
+<!-- ===== MARTE END (html) ===== -->
 <canvas id="rete-cv" aria-hidden="true"></canvas>
 
 ## Web Agency a Roma dal 2013, al fianco della crescita del tuo business.
