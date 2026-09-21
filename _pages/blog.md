@@ -2,8 +2,7 @@
 layout: default
 permalink: /blog/
 title: Blog
-nav: true
-nav_order: 0.6
+nav: false
 pagination:
   enabled: true
   collection: posts
