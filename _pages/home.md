@@ -58,7 +58,7 @@ Un team unico di professionisti coordina ogni fase, dalla strategia al risultato
   var o=document.querySelector('.marte-orbita'); if(!o) return;
   var y=o.querySelector('.marte-y'), cv=o.querySelector('.marte'); if(!y||!cv) return;
   var ridotto=matchMedia('(prefers-reduced-motion: reduce)').matches;
-  var PX=173000, PY=131000, GIRO=90000, K='marte_t0';
+  var PX=173000, PY=131000, GIRO=45000, K='marte_t0';
   var t0=parseInt(localStorage.getItem(K),10); if(!t0||isNaN(t0)){ t0=Date.now(); try{localStorage.setItem(K,t0);}catch(e){} }
   function amp(){ return matchMedia('(max-width:600px)').matches?26:36; }
   function moto(){
