@@ -408,7 +408,7 @@
     }).catch(function (e) { A.toast(A.errMsg(e), true); });
   };
 
-  /* A.save: scrive il front matter di articolo/progetto/news. PUNTI CRITICI: (1) 'date', 'inline', 'importance' vanno con fmSet DIRETTO, mai yq: devono restare timestamp/booleano/numero (sez. 0c). (2) valore vuoto = riga rimossa con fmDel, cosi' il sito usa il fallback (SEO, sez. 0d). (3) il nome file di un NUOVO post e' 'data-slug.md' con la data del campo Data: se la data e' nel futuro senza 'future: true' il post non esce (sez. 0c). (4) i campi si leggono per id 'f_<nome>': cambiare l'ordine visivo (BELOW) non tocca il salvataggio. [FONTE: naming file post, al-folio docs/CUSTOMIZE.md] */
+  /* A.save: scrive il front matter di articolo/progetto/news. PUNTI CRITICI: (1) 'date', 'inline', 'importance' vanno con fmSet DIRETTO, mai yq: devono restare timestamp/booleano/numero (sez. 0c). (2) valore vuoto = riga rimossa con fmDel, cosi' il sito usa il fallback (SEO, sez. 0d). (3) il nome file di un NUOVO post e' 'data-slug.md' con la data del campo Data: se la data e' nel futuro senza 'future: true' il post non esce (sez. 0c). (4) i campi si leggono per id 'f_<nome>': cambiare l'ordine visivo (BELOW) non tocca il salvataggio. (5) i post ricevono sempre 'toc: beginning: true' cosi' Jekyll (jekyll-toc del tema al-folio) genera l'indice cliccabile in automatico dai titoli ##/### del corpo, senza doverlo scrivere a mano - NON usare il layout 'distill' con 'toc:' a elenco manuale, richiede authors/affiliations e la lista deve combaciare coi titoli. [FONTE: naming file post, al-folio docs/CUSTOMIZE.md] */
   A.save = A.wrap(function () {
     var key = cur.key, fm = cur.fm || 'layout: ' + LAYOUT[key], name = cur.name;
     fm = A.fmSet(fm, 'layout', LAYOUT[key]);
@@ -429,6 +429,7 @@
       else fm = A.fmSet(fm, k, A.yq(v));
     });
     if (key === 'news' && !/^related_posts:/m.test(fm)) fm = A.fmSet(fm, 'related_posts', 'false');
+    if (key === 'posts' && !/^toc:/m.test(fm)) fm = fm.replace(/\n*$/, '') + '\ntoc:\n  beginning: true';
     if (!name) {
       var t = $('f_title').value.trim();
       if (key === 'posts') { if (!t) return A.toast('Titolo obbligatorio', true); name = $('f_date_d').value + '-' + A.slugify(t) + '.md'; }
