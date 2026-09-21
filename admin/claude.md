@@ -239,7 +239,7 @@ Il `header.liquid` ORIGINALE della gem (`al_folio_core-1.0.15`) stampa la voce "
 ### Pagine di _pages/ (stato vergine)
 | File | permalink | nav | nav_order | layout | note |
 |---|---|---|---|---|---|
-| about.md | `/` | (home) | - | about | profilo, subtitle, profile{}, announcements{}, latest_posts{} |
+| about.md | `/` | (home) | - | about | announcements{}, latest_posts{} |
 | blog.md | /blog/ | true | 1 | default | pagination{} |
 | publications.md | /publications/ | true | 2 | page | da _bibliography/papers.bib |
 | projects.md | /projects/ | true | 3 | page | `display_categories: [work, fun]`, `horizontal: false` |
@@ -254,7 +254,7 @@ Il `header.liquid` ORIGINALE della gem (`al_folio_core-1.0.15`) stampa la voce "
 | 404.md | /404.html | - | - | page | redirect: true |
 | about_einstein.md | - | - | - | - | contenuto usato da profiles.md |
 
-Campi `about.md`: `subtitle` (HTML ok), `profile.align/image/image_circular/more_info`, `selected_papers`, `social`, `announcements.{enabled,scrollable,limit}`, `latest_posts.{enabled,scrollable,limit}`. Il corpo (bio) e' il testo sotto il front matter.
+Campi `about.md`: `selected_papers`, `social`, `announcements.{enabled,scrollable,limit}`, `latest_posts.{enabled,scrollable,limit}`. Il corpo (bio) e' il testo sotto il front matter.
 
 ## 5. Regole tecniche al-folio v1 (trappole)
 1. Layout/include/sass sono nella GEM. Nel nostro sito e' lecito fare override (shadow) ma solo se indispensabile. Override gia' presente: `_includes/footer.liquid` (bottoni flottanti, vedi sez. 7).

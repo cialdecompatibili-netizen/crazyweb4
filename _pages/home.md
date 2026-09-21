@@ -4,7 +4,6 @@ title: Home
 permalink: /
 nav: true
 nav_order: 0.3
-subtitle: "<a href='#'>Affiliations</a>. Address. Contacts. Motto. Etc."
 
 selected_papers: true # includes a list of papers marked as "selected={true}"
 social: true # includes social icons at the bottom of the page
@@ -19,6 +18,8 @@ latest_posts:
   scrollable: true # adds a vertical scroll bar if there are more than 3 new posts items
   limit: 3 # leave blank to include all the blog posts
 ---
+
+<style>.post-header{display:none}</style>
 
 <div style="text-align:center; max-width:800px; margin:0 auto;" markdown="1">
 
