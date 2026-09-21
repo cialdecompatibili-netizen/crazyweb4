@@ -23,14 +23,12 @@ latest_posts:
 
 <div style="text-align:center; max-width:800px; margin:0 auto;" markdown="1">
 
-## Web Agency a Roma dal 2013
+## Web Agency a Roma dal 2013, al fianco della crescita del tuo business.
 
-Comunicazione, web marketing e sviluppo di piattaforme digitali: aiutiamo imprenditori, start up e grandi aziende a far crescere il proprio business, nel privato come nella Pubblica Amministrazione.
+Comunicazione, web marketing e sviluppo di piattaforme digitali: aiutiamo imprenditori, start up e grandi aziende a crescere, nel privato come nella Pubblica Amministrazione. Ogni progetto nasce da un'analisi su misura del business e degli obiettivi, combinando creatività e concretezza per ottenere risultati misurabili.
 
-Siamo un team di professionisti che segue ogni fase del progetto, dalla strategia al risultato. Ogni lavoro parte da un'analisi su misura degli obiettivi del cliente e punta a un **ROI misurabile** e a una crescita costante di fatturato e utili.
+Un team unico di professionisti coordina ogni fase, dalla strategia al risultato: siti, e-commerce, campagne, brand identity e applicativi su misura. Rispondiamo entro 24 ore, festivi esclusi, e la prima consulenza è gratuita.
 
-**Cosa facciamo:** strategie di comunicazione e brand identity, campagne di web marketing, siti, e-commerce e applicativi su misura, consulenza strategica e progetti digitali per gli enti pubblici.
-
-Ti offriamo una **consulenza gratuita per iniziare**: scrivici e ti rispondiamo entro 24 ore, festivi esclusi.
+**Vuoi far crescere il tuo business?** Scrivici su WhatsApp o richiedi un preventivo: costruiamo insieme la soluzione giusta per te.
 
 </div>
