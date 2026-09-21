@@ -291,7 +291,7 @@
         var h = '<h2>' + cfg.label + ' <button class="btn primary sm" onclick="A.edit(\'' + cfg.key + '\')">+ Nuovo</button></h2><div class="card list">';
         if (!files.length) h += 'Nessun elemento.';
         files.forEach(function (f, i) {
-          var star = cfg.key === 'posts' ? '<button class="btn sm star' + (fl[i] ? ' on' : '') + '" title="' + (fl[i] ? 'In evidenza: clic per togliere' : 'Metti in evidenza (in alto nel blog)') + '" onclick="A.feature(\'' + esc(f.name) + '\',' + (fl[i] ? 'false' : 'true') + ')">' + (fl[i] ? '&#9733;' : '&#9734;') + '</button>' : '';
+          var star = cfg.key === 'posts' ? '<button class="btn sm star' + (fl[i] ? ' on' : '') + '" data-n="' + esc(f.name) + '" title="' + (fl[i] ? 'In evidenza: clic per togliere' : 'Metti in evidenza (in alto nel blog)') + '" onclick="A.feature(\'' + esc(f.name) + '\',' + (fl[i] ? 'false' : 'true') + ',this)">' + (fl[i] ? '&#9733;' : '&#9734;') + '</button>' : '';
           h += '<div class="it">' + star + '<span>' + esc(f.name) + '</span>' +
             '<button class="btn sm" onclick="A.edit(\'' + cfg.key + '\',\'' + esc(f.name) + '\')">Modifica</button>' +
             '<button class="btn sm danger" onclick="A.del(\'' + cfg.key + '\',\'' + esc(f.name) + '\')">Elimina</button></div>';
@@ -452,18 +452,35 @@
     }
   });
 
-  /* A.feature: stella nella lista articoli. Aggiunge/toglie SOLO la riga "featured: true" nel front matter (fmSet/fmDel, il resto del file resta identico). Il blog (_pages/blog.md) mostra in alto i post con featured: true. */
-  A.feature = A.wrap(function (name, on) {
-    var p = '_posts/' + name;
-    return A.getFile(p).then(function (f) {
-      var s = A.splitFM(f.text);
-      if (!s.fm) throw new Error('Front matter non trovato in ' + name);
-      var fm = on ? A.fmSet(s.fm, 'featured', 'true') : A.fmDel(s.fm, 'featured');
-      var nl = f.text.indexOf('\r\n') >= 0 ? '\r\n' : '\n';
-      var out = '---' + nl + fm.replace(/\r?\n+$/, '') + nl + '---' + nl + s.body;
-      return A.putFile(p, out, f.sha, 'admin: ' + (on ? 'in evidenza ' : 'tolto da evidenza ') + name);
-    }).then(function () { A.toast(on ? 'In evidenza' : 'Tolto da evidenza'); A.go('posts'); });
-  });
+  /* A.feature: stella nella lista articoli. Aggiunge/toglie SOLO la riga "featured: true" nel front matter (fmSet/fmDel, il resto del file resta identico). Il blog (_pages/blog.md) mostra in alto i post con featured: true.
+     REATTIVA (ottimistica): la stella cambia subito nel DOM, il commit parte in background e la lista NON viene ricaricata (niente 45 letture). Se il commit fallisce la stella torna com'era + avviso.
+     Lock PER RIGA (starBusy), non il busy globale di A.wrap: cosi' puoi cliccare stelle di articoli diversi in fila; due clic sullo stesso articolo si accodano (lo sha del file cambia a ogni commit, senza coda darebbe conflitto 409). */
+  var starBusy = {};
+  function paintStar(btn, on) {
+    btn.className = 'btn sm star' + (on ? ' on' : '');
+    btn.innerHTML = on ? '&#9733;' : '&#9734;';
+    btn.title = on ? 'In evidenza: clic per togliere' : 'Metti in evidenza (in alto nel blog)';
+    btn.setAttribute('onclick', 'A.feature(\'' + btn.getAttribute('data-n') + '\',' + (on ? 'false' : 'true') + ',this)');
+  }
+  A.feature = function (name, on, btn) {
+    if (btn) paintStar(btn, on);
+    var prev = starBusy[name] || Promise.resolve();
+    starBusy[name] = prev.then(function () {
+      var p = '_posts/' + name;
+      return A.getFile(p).then(function (f) {
+        var s = A.splitFM(f.text);
+        if (!s.fm) throw new Error('Front matter non trovato in ' + name);
+        var fm = on ? A.fmSet(s.fm, 'featured', 'true') : A.fmDel(s.fm, 'featured');
+        var nl = f.text.indexOf('\r\n') >= 0 ? '\r\n' : '\n';
+        var out = '---' + nl + fm.replace(/\r?\n+$/, '') + nl + '---' + nl + s.body;
+        return A.putFile(p, out, f.sha, 'admin: ' + (on ? 'in evidenza ' : 'tolto da evidenza ') + name);
+      }).then(function () { A.toast(on ? 'In evidenza (pubblicazione in corso)' : 'Tolto da evidenza (pubblicazione in corso)'); });
+    }).catch(function (e) {
+      if (btn) paintStar(btn, !on); // rollback visivo
+      A.toast('Stella non salvata: ' + A.errMsg(e), true);
+    });
+    return starBusy[name];
+  };
   A.del = A.wrap(function (key, name) {
     if (!confirm('Eliminare ' + name + '?')) return;
     return A.getFile(C[key].dir + '/' + name).then(function (f) { return A.delFile(C[key].dir + '/' + name, f.sha); })
