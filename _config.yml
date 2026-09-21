@@ -139,7 +139,7 @@ bing_site_verification: # out your bing-site-verification ID (Bing Webmaster)
 blog_name: al-folio # blog_name will be displayed in your blog page
 blog_description: # descrizione opzionale del blog: se vuota non compare e non occupa spazio
 permalink: /blog/:year/:title/
-toc_style: side # aspetto indice articoli: "box" (cornice in alto) oppure "side" (laterale sinistro stile Distill). Si cambia da admin > Impostazioni
+toc_style: box # aspetto indice articoli: "box" (cornice in alto) oppure "side" (laterale sinistro stile Distill). Si cambia da admin > Impostazioni
 # --- DATE DEI POST: non toccare senza leggere admin/claude.md sez. 0c ---
 # Senza "timezone" Jekyll legge le date dei post nel fuso del server GitHub (UTC): un post scritto
 # alle 15:06 ora italiana e' "15:06 UTC" = nel futuro -> NON viene pubblicato e da' 404 senza errori.
