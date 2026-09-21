@@ -25,15 +25,19 @@ latest_posts:
 .rete-box canvas{position:absolute;inset:0;width:100%;height:100%;z-index:-1;display:block;pointer-events:none}
 .rete-box > *{position:relative}
 .rete-box h2{margin-top:0}
-.rete-box .marte{position:absolute;z-index:-2;pointer-events:none;border-radius:50%;
-  width:clamp(150px,26vw,230px);aspect-ratio:1;right:2%;top:-2%;
-  background:radial-gradient(circle at 32% 30%, rgba(233,168,132,.62) 0%, rgba(214,160,134,.50) 32%, rgba(178,150,138,.34) 62%, rgba(150,145,145,.16) 100%);
-  box-shadow:0 0 90px 40px rgba(150,150,158,.10), inset -22px -16px 40px rgba(90,80,84,.20);
-  filter:blur(1px)}
-html[data-theme=dark] .rete-box .marte{
-  background:radial-gradient(circle at 32% 30%, rgba(214,140,102,.50) 0%, rgba(190,132,106,.40) 32%, rgba(140,112,102,.28) 62%, rgba(110,104,106,.12) 100%);
-  box-shadow:0 0 90px 40px rgba(150,150,160,.08), inset -22px -16px 40px rgba(20,16,18,.35)}
-@media (max-width:600px){.rete-box .marte{width:26vw;right:1%;top:-4%}}
+.rete-box .marte{position:absolute;z-index:-2;pointer-events:none;border-radius:50%;overflow:hidden;
+  width:clamp(84px,12vw,124px);aspect-ratio:1;right:1%;top:-3%;
+  box-shadow:0 0 46px 16px rgba(150,150,158,.12);opacity:.38;filter:saturate(.72) contrast(.9);
+  background:url("{{ '/assets/img/marte.webp' | relative_url }}") center/100% 100% no-repeat;
+  animation:marte-libra 90s ease-in-out infinite alternate}
+.rete-box .marte::after{content:"";position:absolute;inset:0;border-radius:50%;
+  background:radial-gradient(circle at 28% 30%,rgba(255,255,255,.12) 0%,rgba(0,0,0,0) 34%,rgba(0,0,0,.34) 100%);
+  background-size:170% 170%;background-position:0% 0%;animation:marte-luce 150s ease-in-out infinite alternate}
+@keyframes marte-libra{from{transform:rotate(-7deg)}to{transform:rotate(7deg)}}
+@keyframes marte-luce{from{background-position:0% 0%}to{background-position:100% 60%}}
+html[data-theme=dark] .rete-box .marte{opacity:.40;box-shadow:0 0 46px 16px rgba(150,150,160,.08)}
+@media (max-width:600px){.rete-box .marte{width:20vw;right:1%;top:-5%}}
+@media (prefers-reduced-motion:reduce){.rete-box .marte,.rete-box .marte::after{animation:none}}
 </style>
 
 <div class="rete-box" id="rete-box" markdown="1">
