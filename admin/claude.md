@@ -1,4 +1,4 @@
----
+﻿---
 render_with_liquid: false
 sitemap: false
 ---
@@ -18,7 +18,7 @@ Questo progetto (sito + admin + moduli) e' fatto per persone **senza competenze 
 4. **Non si deve poter rompere il sito con un clic.** Prima di scrivere si controlla (es. `A.mdInstall` verifica che i file esistano prima di installare, perche' un file mancante fa fallire l'intera build). Operazioni distruttive chiedono conferma e dicono cosa succede davvero (cosa resta, cosa si cancella).
 5. **Ogni schermata spiega da sola.** Mai pagine vuote o bottoni che non fanno nulla senza dirlo: se un modulo non ha impostazioni la pagina Configura lo scrive. Sotto un campo non ovvio va una riga di aiuto in linguaggio comune.
 6. **L'AI e' l'utente principale del codice.** Il codice lo legge e modifica un'AI in sessioni diverse, senza memoria delle precedenti: per questo i commenti (sez. 0b) spiegano il *perche'*, dichiarano la fonte e le trappole, e questo file va aggiornato a fine sessione. Un'AI futura deve poter riprendere il lavoro leggendo solo il codice e questo file.
-7. **Quando spieghi all'utente, parla come a una persona, non a uno sviluppatore.** Dai il risultato ("il banner ora si vede"), poi al massimo un dettaglio tecnico. Se qualcosa non e' stato provato dal vivo, dillo chiaro e dì cosa deve controllare lui, in una riga.
+7. **Quando spieghi all'utente, parla come a una persona, non a uno sviluppatore.** Dai il risultato ("il banner ora si vede"), poi al massimo un dettaglio tecnico. Se qualcosa non e' stato provato dal vivo, dillo chiaro e dÃ¬ cosa deve controllare lui, in una riga.
 8. **Un nuovo modulo = una cartella con un `module.json`**, niente altro da configurare a mano. Se serve toccare piu' cose per aggiungere una funzione, semplificare prima di aggiungere.
 9. **Le stesse cose si fanno sempre allo stesso modo** in tutte le sezioni (stessa posizione dei bottoni, stesse parole: Attiva, Disattiva, Configura, Salva, Annulla). Per chi non e' tecnico la coerenza e' piu' importante della novita'.
 
@@ -29,7 +29,7 @@ Vale per **tutto il sito**, non solo per l'admin. Deve essere possibile duplicar
 **Cosa e' gia' parametrico (non toccare, e' cosi' che deve restare):**
 - `url` e `baseurl` in `_config.yml`: unica fonte di verita' per hostname e sottopercorso. Tutto (footer.liquid, deploy.yml, admin) li deve leggere da li', mai duplicarli come stringa fissa altrove.
 - I workflow in `.github/workflows/` usano variabili GitHub (`${{ github.repository }}` ecc.), non nomi di repo scritti a mano: restano validi su qualsiasi fork/clone.
-- L'admin (`admin/*.js`) legge `REPO` dal login (localStorage) e `baseurl` da `_config.yml` via `A.baseurl()` — nessun repo o path scritto nel codice.
+- L'admin (`admin/*.js`) legge `REPO` dal login (localStorage) e `baseurl` da `_config.yml` via `A.baseurl()` â€” nessun repo o path scritto nel codice.
 
 **Regole per ogni nuova modifica (codice sito o admin):**
 - Mai scrivere in JS/HTML/CSS/Liquid nomi di repo, utenti GitHub, `baseurl`, URL assoluti del sito. Se serve un path verso il sito, costruirlo da `site.baseurl` (Liquid) o `A.baseurl()` (admin), mai concatenando una stringa fissa.
@@ -39,7 +39,7 @@ Vale per **tutto il sito**, non solo per l'admin. Deve essere possibile duplicar
 **Procedura per clonare il sito (nuovo progetto dallo stesso template):**
 1. Copiare l'intera cartella su un nuovo repo GitHub (nuovo nome).
 2. In `_config.yml` aggiornare SOLO `url` (hostname) e `baseurl` (sottopercorso, es. `/nuovo-repo`), oltre ai campi anagrafici (`title`, `first_name`/`last_name`, `description`, `footer_text`).
-3. Attivare GitHub Pages: source `gh-pages`, `build_type: legacy` (non `workflow`, altrimenti 404 — vedi sez. 2).
+3. Attivare GitHub Pages: source `gh-pages`, `build_type: legacy` (non `workflow`, altrimenti 404 â€” vedi sez. 2).
 4. Primo push su `main` fa partire `deploy.yml` in automatico.
 5. Aprire `admin/index.html`, fare login col nuovo `utente/repo` e un token con scope `repo`: l'admin si auto-configura, nessuna modifica al codice necessaria.
 6. Se serve staccare i contenuti (post/pagine/progetti di esempio) prima di pubblicare, farlo dall'admin stesso (Pagine/Articoli) invece che a mano nel repo, cosi' resta tutto tracciato via commit.
@@ -291,7 +291,7 @@ Campi `about.md`: `selected_papers`, `social`, `announcements.{enabled,scrollabl
 - 2026-09-20 (2): topbar sempre visibile su desktop (prima `display:none`) con link Sito/Deploy, testo stato e barra progresso (`.dbar`). In `admin.js`: `start()` ora valorizza `siteLink`/`deployLink` con URL reali (prima restavano `href="#"`) e chiama `lastDeploy()` invece di `pollDeploy()` all'apertura (mostra subito lo stato reale invece di una falsa animazione "in corso"). La barra parte davvero solo dopo un salvataggio (`putFile`/`delFile` chiamano `pollDeploy()`). Pushato (commit 219beb2).
 - 2026-09-20 (3): aggiunta sez. 0 "zero hardcoded, tutto dinamico". Rimossi 2 hardcoded reali: fallback `REPO` in `admin.js` (era `'cialdecompatibili-netizen/crazyweb3'`, ora stringa vuota) e path fisso `/crazyweb3/assets/img/` nel bottone Img di `admin-views.js` (ora `A.baseurl()`, letto da `_config.yml` in `start()` e esposto via `A.baseurl()`).
 - 2026-09-20 (4): sez. 0 estesa a tutto il sito (non solo admin): verificato che `url`/`baseurl` in `_config.yml` sono gia' l'unica fonte di verita' (workflow e footer.liquid non duplicano nulla), remote git di crazyweb3 pulito (nessun token embedded, a differenza di `crazyweb` che ce l'ha). Aggiunta procedura di clonazione in 6 passi (copia repo, 2 righe di config, Pages, push, login admin, contenuti via admin).
-- 2026-09-20 (5): mancava un bottone per creare una nuova voce di menu principale (top-level, non dropdown) — c'era solo "+ Voce submenu"/"+ Divisore" dentro i dropdown e "Aggiungi al menu" per pagine gia' esistenti. Aggiunta card "Nuova voce di menu" in `A.views.menu` + funzione `A.mvNew()` in `admin-menu.js`: crea pagina nuova con `nav:true`, `nav_order:20`, permalink dato o autogenerato da slug. Pushato (commit a4aae8a).
+- 2026-09-20 (5): mancava un bottone per creare una nuova voce di menu principale (top-level, non dropdown) â€” c'era solo "+ Voce submenu"/"+ Divisore" dentro i dropdown e "Aggiungi al menu" per pagine gia' esistenti. Aggiunta card "Nuova voce di menu" in `A.views.menu` + funzione `A.mvNew()` in `admin-menu.js`: crea pagina nuova con `nav:true`, `nav_order:20`, permalink dato o autogenerato da slug. Pushato (commit a4aae8a).
 - 2026-09-20 (6): categoria (Articoli `categories`, Progetti `category`) ora e' un dropdown (stile WordPress) invece di testo libero, per evitare doppioni tipo "Sport"/"sport". `loadCats()` in `admin-views.js` legge tutti i file della collezione e ricava i valori unici gia' usati; il dropdown li elenca + opzione "+ nuova categoria..." che mostra un input libero. Pushato (commit 95a6972).
 - 2026-09-20 (7): ogni salvataggio dall'admin faceva partire ~7 workflow (CodeQL, Prettier x3, broken-links x2, star-history, integration tests...) oltre a Deploy site: sono i workflow standard del template al-folio (pensati per chi sviluppa il tema stesso o siti accademici con CV/citazioni), inutili per un sito gestito solo dall'admin. Disattivati 21 dei 22 file in `.github/workflows/` rinominandoli `.yml.disabled` (GitHub li ignora, reversibile rinominando in `.yml`). Attivo solo `deploy.yml`. Pushato (commit d69b663). **Se si clona il sito: questa disattivazione si eredita col repo, nessuna azione richiesta.**
 - 2026-09-20 (8): BUG trovato e fisso: in `A.save()` di `admin-views.js`, il campo `date` (posts/news) passava per `A.yq()` come tutti gli altri campi testo, che lo quota se contiene spazi (`date: "2026-09-20 14:47:00"`). Una data quotata e' una stringa YAML per Jekyll, non un valore data: puo' rompere ordinamento cronologico e la regola `future: false` (default Jekyll, nessun `future:` in `_config.yml`) puo' escludere il post dalla build se il confronto data avviene in UTC (build gira su GitHub Actions, non ora locale). Fix: `date` ora passa non quotata come `inline`/`importance`. Pushato (commit a0156b0). **Da rifare a mano sui post gia' creati con la data quotata** (aprirli in admin e risalvare, oppure editarli su GitHub togliendo le virgolette da `date:`).
@@ -380,6 +380,6 @@ Creato il 2026-09-20 copiando crazyweb3 senza la cronologia git (un solo commit 
 
 
 ### Indice articoli: switch toc_style
-- `_config.yml` chiave `toc_style`: `box` (cornice carta in alto, default) o `side` (laterale sinistro stile Distill, solo desktop >1024px; sotto torna il box).
+- `_config.yml` chiave `toc_style`: `box` (cornice carta in alto, default) o `side` (laterale sinistro stile Distill, su mobile <=1024px va in alto come box).
 - Si cambia da admin > Impostazioni (select). Applicato da `_includes/footer.liquid`: il JS imposta `data-toc-style` su `<html>` e il CSS `html[data-toc-style=side]` sovrascrive il box. Regole adattate da `al-folio-distill.css` (d-article d-contents).
 - Il TOC resta quello di jekyll-toc (`#table-of-contents`), nessun layout Distill.
