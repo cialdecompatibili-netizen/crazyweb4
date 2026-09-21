@@ -1,8 +1,1 @@
----
-layout: page
-title: servizi
-permalink: /nuova/
-nav: false
----
-
-x
+LS0tCmxheW91dDogcGFnZQp0aXRsZTogc2Vydml6aQpwZXJtYWxpbms6IC9zZXJ2aXppLwpuYXY6IGZhbHNlCi0tLQoKeAo=
