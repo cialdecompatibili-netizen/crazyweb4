@@ -1,9 +1,8 @@
 ---
 layout: page
 title: Agenzia
-nav: true
+nav: false
 permalink: /Agenzia/
-nav_order: 0.4
 ---
 
 Agenzia
