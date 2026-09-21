@@ -316,6 +316,15 @@ defaults:
       path: "assets"
     values:
       sitemap: false
+  # INDICE AUTOMATICO: ogni post riceve toc.beginning=true, quindi il layout post (al_folio_core)
+  # stampa da solo l'indice dai titoli ##/###. Il front matter del singolo file ha la precedenza:
+  # un post con "toc: false" o un suo blocco toc: resta com'e'. Vedi _layouts/post.liquid del gem.
+  - scope:
+      path: ""
+      type: "posts"
+    values:
+      toc:
+        beginning: true
 
 sass:
   style: compressed
