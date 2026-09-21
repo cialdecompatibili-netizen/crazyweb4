@@ -387,5 +387,5 @@ Creato il 2026-09-20 copiando crazyweb3 senza la cronologia git (un solo commit 
 ### Articoli in evidenza (stella)
 - Nella lista Articoli ogni riga ha una stella: piena = eatured: true nel front matter. Il clic (A.feature in admin-views.js) aggiunge/toglie SOLO quella riga, poi commit.
 - Il blog (_pages/blog.md, site.posts | where: featured, true) li mostra in alto come card con puntina.
-- Lo stato si legge aprendo ogni post in parallelo all'apertura della lista (1 chiamata API per articolo).
+- Lo stato si legge aprendo ogni post in parallelo all'apertura della lista (1 chiamata API per articolo). Il clic e' OTTIMISTICO: la stella cambia subito, il commit va in background con coda per singolo articolo (starBusy), rollback + avviso se fallisce; la lista non si ricarica.
 
