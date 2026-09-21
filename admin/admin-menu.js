@@ -76,6 +76,12 @@
       '<p style="position:sticky;top:0;background:inherit;z-index:2;margin:0 0 10px">' + save + '</p>' +
       (p ? '' : '<label>Nome file (senza .md)</label><input id="p_name" placeholder="chi-siamo">') +
       '<label>Titolo</label><input id="p_title" value="' + esc(A.fmGet(curP.fm, 'title')) + '">' +
+      (p ? (function () {
+        /* URL pubblico: baseurl + permalink del front matter (o /<nome>/ se manca). Solo lettura. */
+        var pl = (A.fmGet(curP.fm, 'permalink') || '/' + p.name.replace(/\.md$/, '') + '/').replace(/^["']|["']$/g, '');
+        var u = location.origin + A.baseurl() + (pl.charAt(0) === '/' ? pl : '/' + pl);
+        return '<label>URL pubblico</label><p style="margin:4px 0 10px"><a href="' + esc(u) + '" target="_blank" rel="noopener">' + esc(u) + '</a></p>';
+      })() : '') +
             '<label>Corpo (Markdown)</label>' + pgToolbar() + '<textarea id="body" style="min-height:340px">' + esc(curP.body) + '</textarea><div id="mdPrev" class="mdprev" style="display:none"></div>' +
       /* SEO sotto il Corpo (stesso ordine dell'editor articoli). Solo posizione: pgSave() li legge per id. */
       '<label>SEO Title (vuoto = usa il titolo)</label><input id="p_seot" value="' + esc(A.fmGet(curP.fm, 'seo_title')) + '">' +
