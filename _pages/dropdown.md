@@ -14,5 +14,7 @@ children:
   - title: People
     permalink: /people/
   - title: divider
+  - title: Servizi
+    permalink: /servizi/
 ---
 
