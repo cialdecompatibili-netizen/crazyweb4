@@ -23,10 +23,14 @@ latest_posts:
 
 <div style="text-align:center; max-width:800px; margin:0 auto;" markdown="1">
 
-CMS **bLegenda ase** deployx  LegendCms - X Write your biography here. Tell the world about yourself. Link to your favorite [subreddit](https://www.reddit.com). You can put a picture in, too. The code is already in, just name your picture `prof_pic.jpg` and put it in the `img/` folder.
+## Web Agency a Roma dal 2013
 
-Put your address / P.O. box / other info right below your picture. You can also disable any of these elements by editing `profile` property of the YAML header of your `_pages/about.md`. Edit `_bibliography/papers.bib` and Jekyll will render your [publications page](/al-folio/publications/) automatically.
+Comunicazione, web marketing e sviluppo di piattaforme digitali: aiutiamo imprenditori, start up e grandi aziende a far crescere il proprio business, nel privato come nella Pubblica Amministrazione.
 
-Link to your social media connections, too. This theme is set up to use [Font Awesome icons](https://fontawesome.com/) and [Academicons](https://jpswalsh.github.io/academicons/), like the ones below. Add your Facebook, Twitter, LinkedIn, Google Scholar, or just disable all of them.
+Siamo un team di professionisti che segue ogni fase del progetto, dalla strategia al risultato. Ogni lavoro parte da un'analisi su misura degli obiettivi del cliente e punta a un **ROI misurabile** e a una crescita costante di fatturato e utili.
+
+**Cosa facciamo:** strategie di comunicazione e brand identity, campagne di web marketing, siti, e-commerce e applicativi su misura, consulenza strategica e progetti digitali per gli enti pubblici.
+
+Ti offriamo una **consulenza gratuita per iniziare**: scrivici e ti rispondiamo entro 24 ore, festivi esclusi.
 
 </div>
