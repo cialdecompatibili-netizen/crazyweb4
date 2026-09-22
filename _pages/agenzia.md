@@ -9,5 +9,7 @@ children:
     permalink: /blog/
   - title: Chi siamo
     permalink: /chi-siamo/
+  - title: Servizi
+    permalink: /servizi/
 ---
 
